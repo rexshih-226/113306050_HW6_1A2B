@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>113306050_HW6_1A2B</title>
+</head>
+<body>
+	<h1>113306050_HW6_1A2B</h1>
+	<input type="text" id=num name=num value="請入4個不重複的數字">
+	<input type="button" value="猜!" onclick="guess()">
+	<p><h4>遊戲紀錄:</h4></p>
+	<div id="showRecord"></div>
+
+	<script type="text/javascript">
+		var firstNum = Math.floor(Math.random() * 10) + 1;
+		var secondNum = Math.floor(Math.random() * 10) + 1;
+		var thirdNum = Math.floor(Math.random() * 10) + 1;
+		var lastNum = Math.floor(Math.random() * 10) + 1;
+		while(secondNum == firstNum){
+			secondNum = Math.floor(Math.random() * 10) + 1;
+		}
+		while(thirdNum == firstNum || thirdNum == secondNum){
+			thirdNum = Math.floor(Math.random() * 10) + 1;
+		}
+		while(lastNum == firstNum || lastNum == secondNum || lastNum == thirdNum){
+			lastNum = Math.floor(Math.random() * 10) + 1;
+		}
+		const numArray = [firstNum, secondNum, thirdNum, lastNum];
+		
+		var times = 0;
+		function guess(){
+			var guessNum = document.getElementById("num").value;
+			var num = parseInt(guessNum);
+			var firstGuess = Math.floor(num/1000);
+			var secondGuess = Math.floor(num/100) - (firstGuess * 10);
+			var thirdGuess = Math.floor(num/10) - (firstGuess * 100) - (secondGuess * 10);
+			var lastGuess = Math.floor(num) - (firstGuess * 1000) - (secondGuess * 100) - (thirdGuess * 10);
+			var a = 0;
+			var b = 0;
+			var guessArray = [firstGuess, secondGuess, thirdGuess, lastGuess];
+		
+			if(guessNum.toString().length != 4|| isNaN(num) || firstGuess == secondGuess || firstGuess == thirdGuess || firstGuess == lastGuess || secondGuess == thirdGuess || secondGuess == lastGuess || thirdGuess == lastGuess){
+				alert("請入4個不重複的數字!");
+			}
+			else{
+				for (var i = 0; i < numArray.length; i++) {
+					if(numArray[i] == guessArray[i]){
+						a++;
+					}
+					else if(numArray.includes(guessArray[i])){
+						b++;
+					}
+				}
+				times++;
+
+				var record = "第" + times + "次: " + guessNum + "-->" + a + "A" + b + "B";
+				var showRecord = document.getElementById("showRecord");
+				if(a == 4){
+					alert("正確答案");
+				}
+				else{
+					showRecord.innerHTML += record + "<br>";
+				}
+			}
+		}
+	</script>
+</body>
+</html>
